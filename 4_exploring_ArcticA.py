@@ -1,3 +1,6 @@
+# Author: Elisa Gambicchia (2021)
+# This script aims to explore the dataset "Arctic A", the diphones containing and their Zipf-like distribution
+
 import re
 import pandas as pd
 from functools import reduce
@@ -6,15 +9,16 @@ from pprint import pprint
 import collections
 import matplotlib.pyplot as plt
 
+
 def one_sentence_per_line_file(old_file, new_file, tag):
     with open(old_file, 'r') as f:
-        text_to_process = f.read()
 
+        text_to_process = f.read()
         utts_to_process = re.sub(r"\s", r" ", text_to_process)
         utts_to_process = re.sub(r"#!MLF!#", r"", utts_to_process)
         utts_to_process = re.sub(tag, r"\n\1", utts_to_process)
 
-    file = open(new_file, "w") # write mode
+    file = open(new_file, "w") 
     output = utts_to_process
     file.write(output)
     file.close()
@@ -56,40 +60,29 @@ def from_arctic_to_diphones():
 
     return recipe_dictionary
 
-# dictionary with all recipes and their diphone sequence as value
-recipe_dict = from_arctic_to_diphones()
+def main():
 
-# looking at zipf-like distribution
-all_diphones_in_sentences = []
-for key in recipe_dict:
-    all_diphones_in_sentences.append(recipe_dict[key])
+    # dictionary with all recipes and their diphone sequence as value
+    recipe_dict = from_arctic_to_diphones()
 
-all_diphones_in_sentences = reduce(operator.add, all_diphones_in_sentences)
-counts_of_diphones = collections.Counter(all_diphones_in_sentences)
-ordered_counts_of_diphones = collections.OrderedDict(counts_of_diphones.most_common())
+    # looking at zipf-like distribution
+    all_diphones_in_sentences = []
+    for key in recipe_dict:
+        all_diphones_in_sentences.append(recipe_dict[key])
 
-print(ordered_counts_of_diphones)
+    all_diphones_in_sentences = reduce(operator.add, all_diphones_in_sentences)
+    counts_of_diphones = collections.Counter(all_diphones_in_sentences)
+    ordered_counts_of_diphones = collections.OrderedDict(counts_of_diphones.most_common())
 
-print('Total unit types in arctic A: ', len(ordered_counts_of_diphones))
-# pprint(counts_of_diphones)
+    print(ordered_counts_of_diphones)
+    print('Total unit types in arctic A: ', len(ordered_counts_of_diphones))
 
-# seeing how many diphones we have in total
-total_diphones = 0
-for key in ordered_counts_of_diphones:
-    total_diphones += ordered_counts_of_diphones[key]
+    # seeing how many diphones we have in total
+    total_diphones = 0
+    for key in ordered_counts_of_diphones:
+        total_diphones += ordered_counts_of_diphones[key]
 
-print("Total diphones (including repetitions): ", total_diphones)
-# # figure
-# keys = ordered_counts_of_diphones.keys()
-# values = ordered_counts_of_diphones.values()
-# plt.bar(keys, values, color='#ff7f00')
-# plt.xlabel(f"Diphones (N={len(ordered_counts_of_diphones)}), ordered by frequency")
-# plt.ylabel("Frequency")
-# plt.tick_params(
-#     axis='x',          # changes apply to the x-axis
-#     which='both',      # both major and minor ticks are affected
-#     bottom=False,      # ticks along the bottom edge are off
-#     top=False,         # ticks along the top edge are off
-#     labelbottom=False) # labels along the bottom edge are off
-# plt.title("Zipf-like distribution of diphones in Arctic A.")
-# plt.savefig("zipf-like distribution - arctic.pdf")
+    print("Total diphones (including repetitions): ", total_diphones)
+
+if __name__ == "__main__":
+    main()

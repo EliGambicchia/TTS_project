@@ -1,3 +1,5 @@
+# specific pronunciations for Italian ingredients to insert in our lexicon
+
 (lex.add.entry '("radicchio" nn (((r @) 0) ((d ii) 1) ((k iy) 0) ((ou) 0))))
 (lex.add.entry '("porcini" nns (((p @ r) 0) ((t sh ii) 1) ((n iy) 0))))
 (lex.add.entry '("pesto" nn (((p e) 1) ((s t ou) 0))))

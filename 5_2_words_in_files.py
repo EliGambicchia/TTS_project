@@ -1,3 +1,6 @@
+# Author: Elisa Gambicchia (2021)
+# This script look at some word frequency in the different datasets
+
 import re
 import matplotlib.pyplot as plt
 import collections
@@ -62,24 +65,28 @@ def plot_for_len_sentences(utt_len_list,
     plt.clf()
 
 
-print("Total words in chosen Recipes: ", words_recipes()[0])
-big_string_recipe = words_recipes()[1]
-print("Average utterance length for Recipes: ", words_counts(big_string_recipe)[0])
-plot_for_len_sentences(words_counts(big_string_recipe)[1],
-                       color='#377eb8',
-                       title="Sentence length in Recipes (in characters).",
-                       name_sav="Sentence length in Recipes.pdf",
-                       x_step=20,
-                       avg_length=words_counts(big_string_recipe)[0]
-                       )
+def main():
+    print("Total words in chosen Recipes: ", words_recipes()[0])
+    big_string_recipe = words_recipes()[1]
+    print("Average utterance length for Recipes: ", words_counts(big_string_recipe)[0])
+    plot_for_len_sentences(words_counts(big_string_recipe)[1],
+                        color='#377eb8',
+                        title="Sentence length in Recipes (in characters).",
+                        name_sav="Sentence length in Recipes.pdf",
+                        x_step=20,
+                        avg_length=words_counts(big_string_recipe)[0]
+                        )
 
-print("Total words in arctic A: ", words_arctic()[0])
-string_arctic = words_arctic()[1]
-print("Average utterance length for Arctic: ", words_counts(string_arctic)[0])
-plot_for_len_sentences(words_counts(string_arctic)[1],
-                       color='#ff7f00',
-                       title="Sentence length in Arctic A (in characters).",
-                       name_sav="Sentence length in Arctic A.pdf",
-                       x_step=20,
-                       avg_length=words_counts(string_arctic)[0]
-                       )
+    print("Total words in arctic A: ", words_arctic()[0])
+    string_arctic = words_arctic()[1]
+    print("Average utterance length for Arctic: ", words_counts(string_arctic)[0])
+    plot_for_len_sentences(words_counts(string_arctic)[1],
+                        color='#ff7f00',
+                        title="Sentence length in Arctic A (in characters).",
+                        name_sav="Sentence length in Arctic A.pdf",
+                        x_step=20,
+                        avg_length=words_counts(string_arctic)[0]
+                        )
+
+if __name__ == "__main__":
+    main()

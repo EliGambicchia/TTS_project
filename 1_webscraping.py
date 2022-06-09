@@ -1,5 +1,5 @@
-#from this guy:
-# https://github.com/miguelfzafra/Latest-News-Classifier/blob/master/0.%20Latest%20News%20Classifier/05.%20News%20Scraping/17.%20WS%20-%20El%20Pais.ipynb
+# Author: Elisa Gambicchia (2021)
+# Webscraping page:https://github.com/miguelfzafra/Latest-News-Classifier/blob/master/0.%20Latest%20News%20Classifier/05.%20News%20Scraping/17.%20WS%20-%20El%20Pais.ipynb
 
 import numpy as np
 import requests

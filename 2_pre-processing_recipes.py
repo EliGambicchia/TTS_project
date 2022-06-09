@@ -1,3 +1,6 @@
+# Author: Elisa Gambicchia (2021)
+# This script does a deep cleaning of the web-scraped text
+
 import re
 from pprint import pprint
 import collections
@@ -8,11 +11,10 @@ def pre_process(textfile):
         print(f'Opening file: "{textfile}"...')
         text_to_process = f.read()
 
-        # replacing space with new line at the end of a sentence
-        #text_to_process = re.sub(r"([.?!:])\s", r"\1\s", text_to_process)
-        #text_to_process = re.sub(r"\n", r"", text_to_process)
-        # text_to_process = re.sub(r"([a-z]+)\.([A-Z]+)", r".\n\1hello", text_to_process) # not working
-        #text_to_process = re.sub(r"([\.!]\))\s", r"\1\n", text_to_process)
+        # replacing spaces at the end of a sentence with new line 
+        text_to_process = re.sub(r"([.?!:])\s", r"\1\s", text_to_process)
+        text_to_process = re.sub(r"\n", r"", text_to_process)
+        text_to_process = re.sub(r"([\.!]\))\s", r"\1\n", text_to_process)
 
         # replacing some web tags
         text_to_process = re.sub(r"\[<ol class=\"recipeSteps\"><li>", r"", text_to_process)
@@ -34,7 +36,7 @@ def pre_process(textfile):
         text_to_process = re.sub(r"(<a).*(\">)", r"", text_to_process)
         text_to_process = re.sub(r"<\/a>", r"", text_to_process)
 
-        # expanding some key words
+        # expanding some key words - need them for the phoneme-grapheme correspondence
         text_to_process = re.sub(r"[°º˚°ºº][Cc]/", r" celsius or ", text_to_process)
         text_to_process = re.sub(r"[°º˚°ºº]F/", r" fahrenheit or ", text_to_process)
 
@@ -66,32 +68,36 @@ def pre_process(textfile):
 
     return list_sentences
 
-list_sentences = pre_process("all_recipes.txt")
-pprint(list_sentences)
-pprint(type(list_sentences))
-pprint(len(list_sentences))
+def main():
+    list_sentences = pre_process("all_recipes.txt")
+    pprint(list_sentences)
+    pprint(type(list_sentences))
+    pprint(len(list_sentences))
 
-file = open("pre-processed_recipes3.0.txt", "w") # write mode
-for item in list_sentences:
-    file.write("\n" + item)
-file.close()
+    file = open("pre-processed_recipes.txt", "w")
+    for item in list_sentences:
+        file.write("\n" + item)
+    file.close()
 
-# exploring vocabulary
-def make_vocabulary(our_list_of_sentences):
-    # making lists out of sentences
+    # exploring vocabulary
+    def make_vocabulary(our_list_of_sentences):
+        # making lists out of sentences
 
-    our_tokenised_sentences = []
-    for sentence in our_list_of_sentences:
-        tokenised_sentence = sentence.split(" ")
-        our_tokenised_sentences.append(tokenised_sentence)
+        our_tokenised_sentences = []
+        for sentence in our_list_of_sentences:
+            tokenised_sentence = sentence.split(" ")
+            our_tokenised_sentences.append(tokenised_sentence)
 
 
-    flat_list = [word for tokenised_sentence in our_tokenised_sentences for word in tokenised_sentence]
+        flat_list = [word for tokenised_sentence in our_tokenised_sentences for word in tokenised_sentence]
 
-    return collections.Counter(flat_list)
+        return collections.Counter(flat_list)
 
-'''
-vocabulary_bag = make_vocabulary(list_sentences)
-pprint(vocabulary_bag)
-print(len(vocabulary_bag))
-'''
+    '''
+    vocabulary_bag = make_vocabulary(list_sentences)
+    pprint(vocabulary_bag)
+    print(len(vocabulary_bag))
+    '''
+
+if __name__ == "main":
+    main()
