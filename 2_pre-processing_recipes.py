@@ -99,5 +99,5 @@ def main():
     print(len(vocabulary_bag))
     '''
 
-if __name__ == "main":
+if __name__ == "__main__":
     main()
